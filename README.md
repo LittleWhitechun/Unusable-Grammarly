@@ -1,6 +1,6 @@
 # Unusable-Grammarly
 
-![20220729162554]([https://github.com/LittleWhitechun/PicsBed/master/202207291628954.png](https://github.com/LittleWhitechun/PicsBed/blob/master/202207291628954.png))
+![image](https://github.com/LittleWhitechun/PicsBed/blob/master/202207291628954.png)
 
 #### 类似与Grammarly的文字替换纠错功能
 
