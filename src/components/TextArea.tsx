@@ -111,7 +111,7 @@ const MyTextArea = (props: {
           .top || 0;
       const listItemTop = listSelectedItem[2] || 0;
       document.getElementsByClassName("ql-editor")[0].scrollTop +=
-        textTop - listItemTop;
+        textTop - listItemTop + 20;
     }
   }, [listSelectedItem]);
   useEffect(() => {
@@ -123,9 +123,14 @@ const MyTextArea = (props: {
     // console.log("doreplace props:", doReplaceProps);
     if (doReplaceProps.length == 2) {
       quillRef.current?.deleteText(doReplaceProps[0][0], doReplaceProps[0][1]);
-      quillRef.current?.insertText(doReplaceProps[0][0], doReplaceProps[1],'link',true);
+      quillRef.current?.insertText(
+        doReplaceProps[0][0],
+        doReplaceProps[1],
+        "link",
+        true
+      );
       quillRef.current?.removeFormat(doReplaceProps[0][0], 2);
-      setHighLightWord([])
+      setHighLightWord([]);
     }
   }, [doReplaceProps]);
 
@@ -179,7 +184,12 @@ const MyTextArea = (props: {
           return {
             position: [item[0], item[1]],
             title: changeWords[idx],
-            todo: "please modify",
+            todo:
+              changeWords[idx].length == 3
+                ? "Misspelling"
+                : changeWords[idx].length == 4
+                ? "SyntaxError"
+                : "FormatError",
             replacement: banWordsEmoji[changeWords[idx]] || "Emoji",
           };
         });
@@ -215,7 +225,7 @@ const MyTextArea = (props: {
             ?.getBoundingClientRect().top;
           if (selectionTop && listItemTop) {
             document.getElementsByClassName("suggest-list")[0].scrollTop +=
-              listItemTop - selectionTop + 100;
+              listItemTop - selectionTop + 20;
           }
         }
       }
