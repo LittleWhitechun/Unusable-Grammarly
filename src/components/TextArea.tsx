@@ -4,6 +4,7 @@ import { Input, Space } from "@arco-design/web-react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "../style/quill.css";
+import WritingGoIcon from "../assets/writinggo_icon.png";
 
 const TextArea = Input.TextArea;
 const StyledTextArea = styled.div`
@@ -17,12 +18,19 @@ const MyTextArea = (props: {
   setUnFoldItem: any;
   doReplaceProps: any;
   listSelectedItem: any;
+  setAllContent: any;
 }) => {
   const [banText, setBanText] = useState<number[][]>([]);
   //当前高亮显示的词，输入或者选择别的词时取消上一个高亮，并设置新高亮
   const [highLightWord, setHighLightWord] = useState<number[]>([]);
   const quillRef = useRef<null | Quill>(null);
-  const { setContent, setUnFoldItem, doReplaceProps, listSelectedItem } = props;
+  const {
+    setContent,
+    setUnFoldItem,
+    doReplaceProps,
+    listSelectedItem,
+    setAllContent,
+  } = props;
   const banWords = [
     "cat",
     "dog",
@@ -142,7 +150,9 @@ const MyTextArea = (props: {
     }
     quillRef.current = new Quill("#editor", {
       theme: "snow",
+      placeholder: "请在这里开始写作。我们目前不会保存文本，记得及时备份。",
     });
+    // 输入 删除 修改文字
     quillRef.current.on("text-change", (del, oldDel, source) => {
       // console.log('source',source)
       //   console.log("text:", quillRef.current!.getText());
@@ -154,6 +164,7 @@ const MyTextArea = (props: {
         if (curContent && lastContent == curContent) {
           return;
         }
+        setAllContent(curContent);
         lastContent = curContent;
 
         // console.log("newDel |||| oldDel");
@@ -234,6 +245,7 @@ const MyTextArea = (props: {
 
   return (
     <>
+      <img src={WritingGoIcon} width="100" height="30"></img>
       <div id="editor"></div>
       {/* <button onClick={() => markBanWords()}>{`=>`}</button> */}
     </>

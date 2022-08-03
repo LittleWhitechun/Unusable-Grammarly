@@ -11,3 +11,6 @@
 3.选中右侧item，对应词高亮显示
 
 4.左右两侧滚动距离适配
+
+#### 修改页面样式，添加删除等功能
+![image](https://github.com/LittleWhitechun/PicsBed/blob/master/20220803160828.png)

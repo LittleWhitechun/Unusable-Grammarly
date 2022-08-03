@@ -2,7 +2,8 @@ import "./App.css";
 import SuggestList from "./components/SuggestList";
 import MyTextArea from "./components/TextArea";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
+import { ContentContext } from './context-manager';
 
 interface todoItem {
   position: number[][];
@@ -14,17 +15,20 @@ const StyledApp = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px 50px;
-  background-image: linear-gradient( 135deg, #736EFE 10%, #5EFCE8 100%);
+  /* background-image: linear-gradient( 135deg, #736EFE 10%, #5EFCE8 100%); */
+  background-color: white;
   height: 100vh;
+  min-width:1000px;
 `;
 
 function App() {
   const [content, setContent] = useState<todoItem[]>([]);
+  const [allContent,setAllContent] = useState<string>('')
   const [unfoldItem, setUnFoldItem] = useState("");
   const [doReplaceProps, setDoReplaceProps] = useState([]);
-  const [listSelectedItem,setListSelectedItem] = useState([])
+  const [listSelectedItem, setListSelectedItem] = useState([]);
   useEffect(() => {
-    // console.log('content:',content)
+    // console.log('app content:',content)
   }, [content]);
 
   useEffect(() => {
@@ -43,20 +47,23 @@ function App() {
   }, [doReplaceProps]);
   return (
     <>
-      <StyledApp>
-        <MyTextArea
-          setContent={setContent}
-          setUnFoldItem={setUnFoldItem}
-          doReplaceProps={doReplaceProps}
-          listSelectedItem = {listSelectedItem}
-        ></MyTextArea>
-        <SuggestList
-          content={content}
-          setUnFoldItem={setUnFoldItem}
-          setDoReplaceProps={setDoReplaceProps}
-          setListSelectedItem = {setListSelectedItem}
-        ></SuggestList>
-      </StyledApp>
+      <ContentContext.Provider value={{ allContent:allContent,content:content ,setContent:setContent}}>
+        <StyledApp>
+          <MyTextArea
+            setContent={setContent}
+            setUnFoldItem={setUnFoldItem}
+            doReplaceProps={doReplaceProps}
+            listSelectedItem={listSelectedItem}
+            setAllContent = {setAllContent}
+          ></MyTextArea>
+          <SuggestList
+            content={content}
+            setUnFoldItem={setUnFoldItem}
+            setDoReplaceProps={setDoReplaceProps}
+            setListSelectedItem={setListSelectedItem}
+          ></SuggestList>
+        </StyledApp>
+      </ContentContext.Provider>
     </>
   );
 }
